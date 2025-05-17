@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperature App</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <style>
+    body {
+      background-color: #FFC107;
+      transition: background-color 0.5s ease-in-out;
+    }
+    .section {
+      transition: all 0.5s ease-in-out;
+    }
+    .slide-left {
+      animation: slide-left 0.5s ease-in-out;
+    }
+    .slide-right {
+      animation: slide-right 0.5s ease-in-out;
+    }
+    @keyframes slide-left {
+      from {
+        transform: translateX(-100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+    @keyframes slide-right {
+      from {
+        transform: translateX(100%);
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+    .welcome {
+      font-size: 36px;
+      font-weight: bold;
+      color: #333;
+      animation: fadeIn 2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .navbar {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div id="welcome" class="section has-text-centered" style="display: block; padding-top: 10vh;">
+    <h1 class="title welcome">Welcome to Temperature App!</h1>
+    <button class="button is-primary" id="start-btn" style="margin-top: 20px;">Get Started</button>
+  </div>
+  <nav class="navbar" role="navigation" aria-label="main navigation" style="display: none;">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="#home">
+        Home
+      </a>
+      <a class="navbar-item" href="#about">
+        About
+      </a>
+      <a class="navbar-item" href="#contact">
+        Contact
+      </a>
+    </div>
+  </nav>
+  <div id="home" class="section" style="display: none;">
+    <h1 class="title">Temperature App</h1>
+    <form id="temp-form">
+      <div class="field">
+        <label class="label">City</label>
+        <div class="control">
+          <input class="input" type="text" id="city" placeholder="Enter city name">
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button class="button is-primary" type="button" id="get-temp-btn">Get Temperature</button>
+        </div>
+      </div>
+      <p id="temp" class=" subtitle"></p>
+    </form>
+  </div>
+  <div id="about" class="section" style="display: none;">
+    <h1 class="title">About</h1>
+    <h2 class="subtitle">Temperature Measurement using Programming Languages</h2>
+    <p class="content">Temperature measurement and analysis can be performed using various programming languages, including Java. 
+    Java is a popular language used for developing desktop, mobile, and web applications, and it can be used for temperature measurement and analysis. 
+    For example, the following Java code can be used to convert temperature from Celsius to Fahrenheit:</p>
+    <pre>
+      <code>
+public class TemperatureConverter {
+  public static double celsiusToFahrenheit(double celsius) {
+    return (celsius * 9 / 5) + 32;
+  }
+  
+  public static void main(String[] args) {
+    double celsius = 30;
+    double fahrenheit = celsiusToFahrenheit(celsius);
+    System.out.println(celsius + "°C is equal to " + fahrenheit + "°F");
+  }
+}
+      </code>
+    </pre>
+    <p class="content">This code defines a method `celsiusToFahrenheit` that takes a temperature in Celsius as input and returns the equivalent temperature in Fahrenheit. 
+    The `main` method demonstrates the usage of this method by converting 30°C to Fahrenheit and printing the result.</p>
+  </div>
+  <div id="contact" class="section" style="display: none;">
+    <h1 class="title">Contact</h1>
+    <form id="contact-form">
+      <div class="field">
+        <label class="label">Name</label>
+        <div class="control">
+          <input class="input" type="text" id="name" placeholder="Enter your name">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control">
+          <input class="input" type="email" id="email" placeholder="Enter your email">
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Message</label>
+        <div class="control">
+          <textarea class="textarea" id="message" placeholder="Enter your message"></textarea>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button class="button is-primary" type="button" id="send-btn">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+    const form = document.getElementById('temp-form');
+    const cityInput = document.getElementById('city');
+    const getTempBtn = document.getElementById('get-temp-btn');
+    const tempElement = document.getElementById('temp');
+    const aboutPage = document.getElementById('about');
+    const contactPage = document.getElementById('contact');
+    const homePage = document.getElementById('home');
+    const welcomePage = document.getElementById('welcome');
+    const navbar = document.querySelector('.navbar');
+    const navbarItems = document.querySelectorAll('.navbar-item');
+    const startBtn = document.getElementById('start-btn');
+
+    startBtn.addEventListener('click', () => {
+      welcomePage.style.display = 'none';
+      navbar.style.display = 'block';
+      homePage.style.display = 'block';
+      homePage.classList.add('slide-left');
+      setTimeout(() => {
+        homePage.classList.remove('slide-left');
+      }, 500);
+    });
+
+    navbarItems.forEach(item => {
+      item.addEventListener('click', event => {
+        const href = event.target.getAttribute('href');
+        switch (href) {
+          case '#home':
+            aboutPage.style.display = 'none';
+            contactPage.style.display = 'none';
+            homePage.style.display = 'block';
+            homePage.classList.add('slide-left');
+            setTimeout(() => {
+              homePage.classList.remove('slide-left');
+            }, 500);
+            break;
+          case '#about':
+            homePage.style.display = 'none';
+            contactPage.style.display = 'none';
+            aboutPage.style.display = 'block';
+            aboutPage.classList.add('slide-left');
+            setTimeout(() => {
+              aboutPage.classList.remove('slide-left');
+            }, 500);
+            break;
+          case '#contact':
+            homePage.style.display = 'none';
+            aboutPage.style.display = 'none';
+            contactPage.style.display = 'block';
+            contactPage.classList.add('slide-right');
+            setTimeout(() => {
+              contactPage.classList.remove('slide-right');
+            }, 500);
+            break;
+        }
+      });
+    });
+
+    getTempBtn.addEventListener('click', async () => {
+      const city = cityInput.value;
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+      const response = await fetch(url);
+      const data = await response.json();
+      const temp = data.main.temp;
+      tempElement.textContent = `Temperature in ${city}: ${temp}°C`;
+    });
+
+    document.getElementById('send-btn').addEventListener('click', () => {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+      console.log(`Name: ${name}, Email: ${email}, Message: ${message}`);
+    });
+  </script>
+</body>
+</html>
